@@ -15,19 +15,21 @@ def create_params(**kwargs):
         query_string = urlencode(eval(params))
     return f'{url}?{query_string}'
 
-def mocked_requests_get(url, headers):
+def mocked_requests_get(url, headers, data):
     class MockResponse:
         def __init__(self, url, headers, status_code):
             self.verb = "GET"
             self.url = url
             self.headers = headers
+            self.data = data
             self.status_code = status_code
 
         def json(self):
             return {
                 "verb": self.verb,
                 "url": self.url,
-                "headers": self.headers
+                "headers": self.headers,
+                "data": self.data
             }
 
     return MockResponse(url, headers, 200)
@@ -43,11 +45,23 @@ class APIRequester:
         self.headers = kwargs.get("headers")
         self.data = kwargs.get("data")
     
-    @mock.patch('requests.get', side_effect=mocked_requests_get)
-    def get(self, mock_get):
+    #@mock.patch('requests.get', side_effect=mocked_requests_get)
+    #def get(self, mock_get):
+    def get(self):
         response = requests.get(
                 self.url,
                 headers=self.headers,
+                data=self.data
+            )
+        return response
+    
+    #@mock.patch('requests.post', side_effect=mocked_requests_get)
+    #def post(self, mock_get):
+    def post(self):
+        response = requests.post(
+                self.url,
+                headers=self.headers,
+                data=self.data
             )
         return response
 
@@ -60,7 +74,7 @@ class PathBuilder:
         self.base_url = kwargs.get('base_url')
         self.domain = kwargs.get('domain')
         self.version = kwargs.get('version')
-        self.profile_id = kwargs.get("profile_id")
+        self.object_id = kwargs.get("object_id")
         self.domain_id = kwargs.get("domain_id")
         self.domain_action = kwargs.get("domain_action")
         self.params = kwargs.get('params')
@@ -86,6 +100,9 @@ class PathBuilder:
                 "config": {
                     "path": f'{self.version}/config',
                     "name": None
+                },
+                "connect": {
+                    "path": 'connect'
                 },
                 "crop": {
                     "path": f'{self.version}/crop',
@@ -159,8 +176,11 @@ class PathBuilder:
         }
         domain_info = paths['domains'][self.domain]
         sections = [domain_info['path']]
-        if self.profile_id:
-            sections.append(self.profile_id)
+        if self.domain_action:
+            sections.append(self.domain_action)
+        if self.object_id:
+            sections.append(self.object_id)
+        
         
         path = f'/{"/".join(sections)}'
         url = f'{self.base_url}{path}'

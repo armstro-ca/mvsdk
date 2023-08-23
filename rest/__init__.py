@@ -1,8 +1,9 @@
 import os
-import json
-from urllib.parse import urlencode
-import requests
 from mvsdk.api import PathBuilder, APIRequester
+
+#import json
+#from urllib.parse import urlencode
+#import requests
 
 class Client(object):
     """ 
@@ -14,32 +15,45 @@ class Client(object):
         
         # Domains
         self._asset = None
+        self._connect = None
         self._keyword = None
 
 
 
-    def request(self, method, base_url, domain, profile_id=None, 
+    def request(self, method, base_url, domain, object_id=None, 
         domain_id=None, domain_action=None, params=None, data=None, headers=None, auth=None):
 
         headers = headers or {}
         params = params or {}
+        data = data or {}
         method = method.upper()
 
-        path, url = PathBuilder(base_url=base_url, domain=domain, profile_id=profile_id,
+        path, url = PathBuilder(base_url=base_url, domain=domain, object_id=object_id,
             domain_id=domain_id, domain_action=domain_action, params=params).build()
 
         print(f'Endpoint (url): \n{url}\n\n')
-        api = APIRequester(url = url)
-        response = api.get()
+        api = APIRequester(url = url, headers = headers, data = data)
+        
+        if method == 'GET':
+            response = api.get()
+        elif method == 'POST':
+            response = api.post()
+        else:
+            response = {'status_code': "900", 'json': "Verb did not match"}
 
-        print(
-            f'Response:\nStatus:\n{response.status_code}\nJson Response:\n{response.json()}'
-        )
-        json_response = response.json()
-        return {
-            "status": response.status_code,
-            "json": json_response
-        }
+        #print(f'Response:\nStatus:\n{response.status_code}')
+        #print(f'Json Response:\n{response.json()}')
+        
+        if response.status_code is 200:
+            return {
+                "status": response.status_code,
+                "json": response.json()
+            }
+        else:
+            return {
+                "status": response.status_code,
+                "json": {}
+            }
          
     @property
     def asset(self):
@@ -50,6 +64,16 @@ class Client(object):
             from mvsdk.rest.asset import Asset
             self._asset = Asset(self, self.base_url, 'asset')
         return self._asset
+    
+    @property
+    def connect(self):
+        """
+        Access the MVAPI Connect API
+        """
+        if self._connect is None:
+            from mvsdk.rest.connect import Connect
+            self._connect = Connect(self, self.base_url, 'connect')
+        return self._connect
     
     @property
     def keyword(self):
