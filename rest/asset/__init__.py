@@ -9,7 +9,39 @@ class Asset:
         self.base_url = base_url
         self.domain = domain
 
-    def get(self, params=None, data=None, headers=None, auth=None, object_id=None, domain_id=None, domain_action=None):
+    def delete_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keyword',
+                         domain_id=None, domain_action=None):
+        """
+        Pass the required parameters to delete asset keywords
+        url = "https://api.mediavalet.com/assets/urn:uuid:bb93be4f-89d6-0086-e619-8d52e3ee08ce/keywords/esse consequat"
+
+        payload={}
+        headers = {
+        'Ocp-Apim-Subscription-Key': '<uuid>',
+        'Authorization': '<bG9sIHlvdSB0aGluayB0aGlzIHdhcyBhIHJlYWwgdG9rZW4/>'
+        }
+
+        response = requests.request("DELETE", url, headers=headers, data=payload)
+
+        print(response.text)
+
+        """
+        return self.mv_sdk.request(
+            'delete',
+            self.base_url,
+            self.domain,
+            params=params,
+            data=data,
+            headers=headers,
+            auth=auth,
+            object_id=object_id,
+            object_action=object_action,
+            domain_id=domain_id,
+            domain_action=domain_action
+        )
+    
+    def get(self, params=None, data=None, headers=None, auth=None, object_id=None,
+            domain_id=None, domain_action=None):
         """
         Pass the required parameters to 
         https://docs.mediavalet.com/#22e41739-3b8b-40e6-ade7-b70406a318e4
@@ -39,10 +71,11 @@ class Asset:
             domain_action=domain_action
         )
     
-    def get_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, domain_id=None, domain_action=None):
+    def get_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
+                     domain_id=None, domain_action=None):
         """
         Pass the required parameters to 
-        url = "https://api.mediavalet.com/assets/urn:uuid:bb93be4f-89d6-0086-e619-8d52e3ee08ce/categories?includeSoftDeleted=<boolean>&categoryFeatures=<string>"
+        url = "https://api.mediavalet.com/assets/urn:uuid:bb93be4f-89d6-0086-e619-8d52e3ee08ce/keywords?includeSoftDeleted=<boolean>"
 
         payload={}
         headers = {
@@ -63,6 +96,7 @@ class Asset:
             headers=headers,
             auth=auth,
             object_id=object_id,
+            object_action=object_action,
             domain_id=domain_id,
             domain_action=domain_action
         )

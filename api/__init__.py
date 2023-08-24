@@ -3,6 +3,7 @@ import json
 import unittest
 from unittest import mock
 from urllib.parse import urlencode
+import logging
 
 
 def create_params(**kwargs):
@@ -48,6 +49,7 @@ class APIRequester:
     #@mock.patch('requests.get', side_effect=mocked_requests_get)
     #def get(self, mock_get):
     def get(self):
+        logging.debug(f'Request:\nVerb: GET\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
         response = requests.get(
                 self.url,
                 headers=self.headers,
@@ -58,7 +60,19 @@ class APIRequester:
     #@mock.patch('requests.post', side_effect=mocked_requests_get)
     #def post(self, mock_get):
     def post(self):
+        logging.debug(f'Request:\nVerb: GET\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
         response = requests.post(
+                self.url,
+                headers=self.headers,
+                data=self.data
+            )
+        return response
+    
+    #@mock.patch('requests.post', side_effect=mocked_requests_get)
+    #def post(self, mock_get):
+    def delete(self):
+        logging.debug(f'Request:\nVerb: GET\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
+        response = requests.delete(
                 self.url,
                 headers=self.headers,
                 data=self.data
@@ -74,9 +88,10 @@ class PathBuilder:
         self.base_url = kwargs.get('base_url')
         self.domain = kwargs.get('domain')
         self.version = kwargs.get('version')
-        self.object_id = kwargs.get("object_id")
-        self.domain_id = kwargs.get("domain_id")
-        self.domain_action = kwargs.get("domain_action")
+        self.object_id = kwargs.get('object_id')
+        self.object_action = kwargs.get('object_action')
+        self.domain_id = kwargs.get('domain_id')
+        self.domain_action = kwargs.get('domain_action')
         self.params = kwargs.get('params')
         
     def build(self):
@@ -86,100 +101,82 @@ class PathBuilder:
                     "path": 'assets'
                 },
                 "attribute": {
-                    "path": f'{self.version}/attributes',
-                    "name": None
+                    "path": 'attributes'
                 },
                 "branded_portal": {
-                    "path": f'{self.version}/brandedportals',
-                    "name": None
+                    "path": 'brandedportals'
                 },
                 "category": {
-                    "path": f'{self.version}/categories',
-                    "name": None
+                    "path": 'categories'
                 },
                 "config": {
-                    "path": f'{self.version}/config',
-                    "name": None
+                    "path": 'config'
                 },
                 "connect": {
                     "path": 'connect'
                 },
                 "crop": {
-                    "path": f'{self.version}/crop',
-                    "name": None
+                    "path": 'crop'
                 },
                 "direct_link": {
-                    "path": f'{self.version}/directlinks',
-                    "name": None
+                    "path": 'directlinks'
                 },
                 "download": {
-                    "path": f'{self.version}/downloads',
-                    "name": None
+                    "path": 'downloads'
                 },
                 "home": {
-                    "path": f'{self.version}/',
-                    "name": None
+                    "path": ''
                 },
                 "introduction_and_help": {
-                    "path": f'{self.version}/introductionAndHelp',
-                    "name": None
+                    "path": 'introductionAndHelp'
                 },
                 "keyword_group": {
-                    "path": f'{self.version}/keywordGroups',
-                    "name": None
+                    "path": 'keywordGroups'
                 },
                 "keyword": {
-                    "path": f'{self.version}/keywords',
-                    "name": None
+                    "path": 'keywords'
                 },
                 "notification": {
-                    "path": f'{self.version}/notification',
-                    "name": None
+                    "path": 'notification'
                 },
                 "org_unit": {
-                    "path": f'{self.version}/organizationalUnits',
-                    "name": None
+                    "path": 'organizationalUnits'
                 },
                 "reports": {
-                    "path": f'{self.version}/reports',
-                    "name": None
+                    "path": 'reports'
                 },
-                "saved_searche": {
-                    "path": f'{self.version}/savedsearches',
-                    "name": None
+                "saved_search": {
+                    "path": 'savedsearches'
                 },
                 "search": {
-                    "path": f'{self.version}/search',
-                    "name": None
+                    "path": 'search'
                 },
                 "share": {
-                    "path": f'{self.version}/share',
-                    "name": None
+                    "path": 'share'
                 },
                 "public": {
-                    "path": f'{self.version}/public',
-                    "name": None
+                    "path": 'public'
                 },
                 "upload": {
-                    "path": f'{self.version}/uploads',
-                    "name": None
+                    "path": 'uploads'
                 },
                 "user_group": {
-                    "path": f'{self.version}/groups',
-                    "name": None
+                    "path": 'groups'
                 },
                 "user": {
-                    "path": f'{self.version}/users',
-                    "name": None
+                    "path": 'users'
                 }
             }
         }
         domain_info = paths['domains'][self.domain]
         sections = [domain_info['path']]
+
         if self.domain_action:
             sections.append(self.domain_action)
         if self.object_id:
             sections.append(self.object_id)
+        if self.object_action:
+            sections.append(self.object_action)
         
         
         path = f'/{"/".join(sections)}'

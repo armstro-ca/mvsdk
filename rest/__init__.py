@@ -20,7 +20,7 @@ class Client(object):
 
 
 
-    def request(self, method, base_url, domain, object_id=None, 
+    def request(self, method, base_url, domain, object_id=None, object_action=None,
         domain_id=None, domain_action=None, params=None, data=None, headers=None, auth=None):
 
         headers = headers or {}
@@ -29,7 +29,7 @@ class Client(object):
         method = method.upper()
 
         path, url = PathBuilder(base_url=base_url, domain=domain, object_id=object_id,
-            domain_id=domain_id, domain_action=domain_action, params=params).build()
+            object_action=object_action, domain_id=domain_id, domain_action=domain_action, params=params).build()
 
         print(f'Endpoint (url): \n{url}\n\n')
         api = APIRequester(url = url, headers = headers, data = data)
@@ -38,10 +38,12 @@ class Client(object):
             response = api.get()
         elif method == 'POST':
             response = api.post()
+        elif method == 'DELETE':
+            response = api.delete()
         else:
-            response = {'status_code': "900", 'json': "Verb did not match"}
+            response = {'status_code': "405", 'json': "Verb not allowed"}
 
-        #print(f'Response:\nStatus:\n{response.status_code}')
+        print(f'Response:\nStatus:\n{response.status_code}')
         #print(f'Json Response:\n{response.json()}')
         
         if response.status_code is 200:

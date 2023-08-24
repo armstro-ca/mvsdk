@@ -22,12 +22,3 @@ class Connect:
             domain_id=domain_id,
             domain_action=domain_action
         )
-
-"""
-POST https://login.mediavalet.com/connect/token?grant_type=password
-&username={username}
-&password={password}
-&scope=api
-Content-Type: application/x-www-form-urlencoded
-Authorization: Basic TE9MIEdvdCA6IFlvdSA6UCA=
-"""
