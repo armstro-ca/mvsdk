@@ -87,6 +87,8 @@ class Asset:
 
         print(response.text)
         """
+        headers['Host'] = self.base_url
+
         return self.mv_sdk.request(
             'get',
             self.base_url,

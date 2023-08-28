@@ -1,4 +1,6 @@
 import os
+import logging
+
 from mvsdk.api import PathBuilder, APIRequester
 
 #import json
@@ -11,7 +13,8 @@ class Client(object):
     """
     def __init__(self):
 
-        self.base_url = os.getenv('MVAPIPATH') or 'https://api.mediavalet.com'
+        self.base_url = os.getenv('MVAPIBASEURL') or 'api.mediavalet.com'
+        self.auth_url = os.getenv('MVAPIAUTHURL') or 'api.mediavalet.com'
         
         # Domains
         self._asset = None
@@ -31,7 +34,6 @@ class Client(object):
         path, url = PathBuilder(base_url=base_url, domain=domain, object_id=object_id,
             object_action=object_action, domain_id=domain_id, domain_action=domain_action, params=params).build()
 
-        print(f'Endpoint (url): \n{url}\n\n')
         api = APIRequester(url = url, headers = headers, data = data)
         
         if method == 'GET':
@@ -42,11 +44,8 @@ class Client(object):
             response = api.delete()
         else:
             response = {'status_code': "405", 'json': "Verb not allowed"}
-
-        print(f'Response:\nStatus:\n{response.status_code}')
-        #print(f'Json Response:\n{response.json()}')
         
-        if response.status_code is 200:
+        if response.status_code == 200:
             return {
                 "status": response.status_code,
                 "json": response.json()
@@ -74,7 +73,7 @@ class Client(object):
         """
         if self._connect is None:
             from mvsdk.rest.connect import Connect
-            self._connect = Connect(self, self.base_url, 'connect')
+            self._connect = Connect(self, self.auth_url, 'connect')
         return self._connect
     
     @property

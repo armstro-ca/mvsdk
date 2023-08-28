@@ -180,7 +180,7 @@ class PathBuilder:
         
         
         path = f'/{"/".join(sections)}'
-        url = f'{self.base_url}{path}'
+        url = f'https://{self.base_url}{path}'
         
         #manage params and filtering
         params = {}
