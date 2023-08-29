@@ -60,7 +60,7 @@ class APIRequester:
     #@mock.patch('requests.post', side_effect=mocked_requests_get)
     #def post(self, mock_get):
     def post(self):
-        logging.debug(f'Request:\nVerb: GET\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
+        logging.debug(f'Request:\nVerb:POST\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
         response = requests.post(
                 self.url,
                 headers=self.headers,
@@ -71,7 +71,7 @@ class APIRequester:
     #@mock.patch('requests.post', side_effect=mocked_requests_get)
     #def post(self, mock_get):
     def delete(self):
-        logging.debug(f'Request:\nVerb: GET\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
+        logging.debug(f'Request:\nVerb: DELETE\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
         response = requests.delete(
                 self.url,
                 headers=self.headers,

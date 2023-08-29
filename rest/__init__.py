@@ -44,6 +44,9 @@ class Client(object):
             response = api.delete()
         else:
             response = {'status_code': "405", 'json': "Verb not allowed"}
+
+        logging.debug(response.headers)
+        logging.debug(response.text)
         
         if response.status_code == 200:
             return {
@@ -84,4 +87,4 @@ class Client(object):
         if self._keyword is None:
             from mvsdk.rest.keyword import Keyword
             self._keyword = Keyword(self, self.base_url, 'keyword')
-        return self._asset
+        return self._keyword
