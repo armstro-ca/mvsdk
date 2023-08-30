@@ -10,11 +10,11 @@ def create_params(**kwargs):
     '''
     Used to create url parameters for API call
     '''
-    url = kwargs.get("url")
+    path = kwargs.get("path")
     params = kwargs.get("params")
     if params:
         query_string = urlencode(eval(params))
-    return f'{url}?{query_string}'
+    return f'{path}?{query_string}'
 
 def mocked_requests_get(url, headers, data):
     class MockResponse:
@@ -179,18 +179,15 @@ class PathBuilder:
             sections.append(self.object_action)
         
         
-        path = f'/{"/".join(sections)}'
-        url = f'https://{self.base_url}{path}'
+        uri = f'/{"/".join(sections)}'
         
         #manage params and filtering
         params = {}
-        operators = ["e", "lt", "lte", "gt", "gte"]
         for param in self.params.keys():
-            if param in operators:
-                params['account.id'] = f'{param}:{self.params[param]}'
-            else:
-                params[param] = self.params[param]
+            params[param] = self.params[param]
         if params:
-            url = create_params(params=json.dumps(params), url=url)
+            uri = create_params(params=json.dumps(params), path=uri)
 
-        return [path, url]
+        url = f'https://{self.base_url}{uri}'
+
+        return [uri, url]

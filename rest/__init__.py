@@ -3,9 +3,6 @@ import logging
 
 from mvsdk.api import PathBuilder, APIRequester
 
-#import json
-#from urllib.parse import urlencode
-#import requests
 
 class Client(object):
     """ 
@@ -23,17 +20,27 @@ class Client(object):
 
 
 
-    def request(self, method, base_url, domain, object_id=None, object_action=None,
-        domain_id=None, domain_action=None, params=None, data=None, headers=None, auth=None):
+    def request(self, method, base_url, domain, object_id=None,
+                object_action=None, domain_id=None, domain_action=None,
+                params=None, data=None, headers=None, auth=None, bulk=None):
 
         headers = headers or {}
         params = params or {}
         data = data or {}
         method = method.upper()
+        bulk = bulk or False
 
-        path, url = PathBuilder(base_url=base_url, domain=domain, object_id=object_id,
+        uri, url = PathBuilder(base_url=base_url, domain=domain, object_id=object_id,
             object_action=object_action, domain_id=domain_id, domain_action=domain_action, params=params).build()
 
+        if bulk:
+            return {
+                'method': method,
+                'uri': uri,
+                'headers': headers,
+                'data': data
+            }
+        
         api = APIRequester(url = url, headers = headers, data = data)
         
         if method == 'GET':

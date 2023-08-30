@@ -10,11 +10,11 @@ class Asset:
         self.domain = domain
     
     def get(self, params=None, data=None, headers=None, auth=None, object_id=None,
-            domain_id=None, domain_action=None):
+            domain_id=None, domain_action=None, bulk=False):
         """
 
         """
-        headers['Host'] = self.base_url  
+        headers['Host'] = self.base_url
 
         return self.mv_sdk.request(
             'get',
@@ -39,7 +39,7 @@ class Asset:
     # --------------
     
     def create_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
-                         domain_id=None, domain_action=None):
+                         domain_id=None, domain_action=None, bulk=None):
         """
 
         """
@@ -60,11 +60,12 @@ class Asset:
             object_id=object_id,
             object_action=object_action,
             domain_id=domain_id,
-            domain_action=domain_action
+            domain_action=domain_action,
+            bulk=bulk
         )
 
     def delete_keyword(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keyword',
-                         domain_id=None, domain_action=None):
+                         domain_id=None, domain_action=None, bulk=None):
         """
 
         """
@@ -81,11 +82,12 @@ class Asset:
             object_id=object_id,
             object_action=object_action,
             domain_id=domain_id,
-            domain_action=domain_action
+            domain_action=domain_action,
+            bulk=bulk
         )
     
     def get_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
-                     domain_id=None, domain_action=None):
+                     domain_id=None, domain_action=None, bulk=None):
         """
 
         """
@@ -102,5 +104,6 @@ class Asset:
             object_id=object_id,
             object_action=object_action,
             domain_id=domain_id,
-            domain_action=domain_action
+            domain_action=domain_action,
+            bulk=bulk
         )
