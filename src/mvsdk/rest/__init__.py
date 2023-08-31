@@ -8,10 +8,10 @@ class Client(object):
     """ 
     A client for accessing the MVAPI. 
     """
-    def __init__(self):
+    def __init__(self, api_url: str, auth_url: str):
 
-        self.base_url = os.getenv('MVAPIBASEURL') or 'api.mediavalet.com'
-        self.auth_url = os.getenv('MVAPIAUTHURL') or 'api.mediavalet.com'
+        self.base_url = api_url or 'api.mediavalet.com'
+        self.auth_url = auth_url or 'api.mediavalet.com'
         
         # Domains
         self._asset = None
