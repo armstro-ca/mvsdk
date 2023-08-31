@@ -8,10 +8,10 @@ class Client(object):
     """ 
     A client for accessing the MVAPI. 
     """
-    def __init__(self, api_url: str, auth_url: str):
+    def __init__(self):
 
-        self.base_url = api_url or 'api.mediavalet.com'
-        self.auth_url = auth_url or 'api.mediavalet.com'
+        self.base_url = 'mv-api-whistler.mediavalet.com'
+        self.auth_url = 'iam-qa.mediavalet.com'
         
         # Domains
         self._asset = None
@@ -29,6 +29,12 @@ class Client(object):
         data = data or {}
         method = method.upper()
         bulk = bulk or False
+
+        headers['User-Agent'] = 'MediaValetSDK/0.0.4'
+        headers['Host'] = base_url or self.base_url
+        if auth:
+            headers['Authorization'] = f'Bearer {auth}'
+
 
         uri, url = PathBuilder(base_url=base_url, domain=domain, object_id=object_id,
             object_action=object_action, domain_id=domain_id, domain_action=domain_action, params=params).build()

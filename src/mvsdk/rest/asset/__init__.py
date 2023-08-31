@@ -14,7 +14,7 @@ class Asset:
         """
 
         """
-        headers['Host'] = self.base_url
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
             'get',
@@ -43,7 +43,6 @@ class Asset:
         """
 
         """
-        headers['Host'] = self.base_url
         headers['Accept'] = "application/json"
         headers['Content-Type'] = "application/json"
         headers['Accept-Encoding'] = "gzip, deflate, br"
@@ -69,7 +68,7 @@ class Asset:
         """
 
         """
-        headers['Host'] = self.base_url
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
             'delete',
@@ -91,7 +90,7 @@ class Asset:
         """
 
         """
-        headers['Host'] = self.base_url
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
             'get',

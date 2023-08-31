@@ -14,7 +14,7 @@ class Keyword:
         """
         https://docs.mediavalet.com/#38562514-52f6-457e-9b7a-25486661112c
         """
-        headers['Host'] = self.base_url
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
             'post',
@@ -35,7 +35,7 @@ class Keyword:
         """
         https://docs.mediavalet.com/#1e6608b7-5d9a-4904-8ffc-731fc6c4e9c3
         """
-        headers['Host'] = self.base_url
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
             'get',
