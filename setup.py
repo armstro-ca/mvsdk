@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='MediaValet SDK',
+    name='mvsdk',
     version='0.0.4',
     author='James Armstrong',
     author_email='j@armstro.ca',
