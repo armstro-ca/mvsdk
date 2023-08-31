@@ -18,6 +18,7 @@ class Connect:
             bytes(f'{auth["client_id"]}:{auth["client_secret"]}', 'utf-8"')
             ).decode("utf-8")
         
+        headers = headers or {}
         headers['Content-Type'] = "application/x-www-form-urlencoded"
         headers['Authorization'] = f'Basic {auth_string}'
         headers['Accept'] = '*/*'

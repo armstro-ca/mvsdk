@@ -14,6 +14,7 @@ class Asset:
         """
 
         """
+        headers = headers or {}
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
@@ -43,6 +44,7 @@ class Asset:
         """
 
         """
+        headers = headers or {}
         headers['Accept'] = "application/json"
         headers['Content-Type'] = "application/json"
         headers['Accept-Encoding'] = "gzip, deflate, br"
@@ -68,6 +70,7 @@ class Asset:
         """
 
         """
+        headers = headers or {}
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
@@ -90,6 +93,7 @@ class Asset:
         """
 
         """
+        headers = headers or {}
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
         return self.mv_sdk.request(
