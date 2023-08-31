@@ -14,11 +14,13 @@ class Connect:
     def auth(self, params=None, data=None, headers=None, auth=None, object_id=None, domain_id=None, domain_action=None):
         """
         """
-        auth_string = base64.b64encode(
-            bytes(f'{auth["client_id"]}:{auth["client_secret"]}', 'utf-8"')
-            ).decode("utf-8")
+        if auth:
+            auth_string = base64.b64encode(
+                bytes(f'{auth["client_id"]}:{auth["client_secret"]}', 'utf-8"')
+                ).decode("utf-8")
         
         headers = headers or {}
+
         headers['Content-Type'] = "application/x-www-form-urlencoded"
         headers['Authorization'] = f'Basic {auth_string}'
         headers['Accept'] = '*/*'
