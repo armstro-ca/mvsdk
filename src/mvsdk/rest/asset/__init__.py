@@ -66,7 +66,7 @@ class Asset:
         )
 
     def delete_keyword(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keyword',
-                         domain_id=None, domain_action=None, bulk=None):
+                       domain_id=None, domain_action=None, bulk=None):
         """
 
         """

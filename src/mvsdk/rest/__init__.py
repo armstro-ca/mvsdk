@@ -15,6 +15,7 @@ class Client(object):
         
         # Domains
         self._asset = None
+        self._bulk = None
         self._connect = None
         self._keyword = None
 
@@ -35,9 +36,9 @@ class Client(object):
         if auth:
             headers['Authorization'] = f'Bearer {auth}'
 
-
         uri, url = PathBuilder(base_url=base_url, domain=domain, object_id=object_id,
-            object_action=object_action, domain_id=domain_id, domain_action=domain_action, params=params).build()
+                               object_action=object_action, domain_id=domain_id,
+                               domain_action=domain_action, params=params).build()
 
         if bulk:
             return {
@@ -47,7 +48,7 @@ class Client(object):
                 'data': data
             }
         
-        api = APIRequester(url = url, headers = headers, data = data)
+        api = APIRequester(url=url, headers=headers, data=data)
         
         if method == 'GET':
             response = api.get()
@@ -81,6 +82,16 @@ class Client(object):
             from mvsdk.rest.asset import Asset
             self._asset = Asset(self, self.base_url, 'asset')
         return self._asset
+    
+    @property
+    def bulk(self):
+        """
+        Access the MVAPI Bulk API
+        """
+        if self._bulk is None:
+            from mvsdk.rest.bulk import Bulk
+            self._bulk = Bulk(self, self.auth_url, 'bulk')
+        return self._bulk
     
     @property
     def connect(self):
