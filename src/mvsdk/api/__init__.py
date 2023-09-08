@@ -106,6 +106,9 @@ class PathBuilder:
                 "branded_portal": {
                     "path": 'brandedportals'
                 },
+                "bulk": {
+                    "path": 'bulk'
+                },
                 "category": {
                     "path": 'categories'
                 },
