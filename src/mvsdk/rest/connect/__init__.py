@@ -22,7 +22,6 @@ class Connect:
                 ).decode("utf-8")
             headers['Authorization'] = f'Basic {auth_string}'
 
-        
         headers = headers or {}
 
         headers['Content-Type'] = "application/x-www-form-urlencoded"

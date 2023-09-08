@@ -90,7 +90,7 @@ class Client(object):
         """
         if self._bulk is None:
             from mvsdk.rest.bulk import Bulk
-            self._bulk = Bulk(self, self.auth_url, 'bulk')
+            self._bulk = Bulk(self, self.base_url, 'bulk')
         return self._bulk
     
     @property
