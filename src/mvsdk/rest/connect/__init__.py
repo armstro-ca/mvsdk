@@ -12,7 +12,7 @@ class Connect:
         self.base_url = base_url
         self.domain = domain
 
-    def auth(self, params=None, data=None, headers=None, auth=None, 
+    def auth(self, params=None, data=None, headers=None, auth=None,
              object_id=None, domain_id=None):
         """
         """
