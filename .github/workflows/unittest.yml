@@ -1,4 +1,4 @@
-name: MVSDK
+name: Lint & Unit Tests
 
 on: [push]
 
