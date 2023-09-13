@@ -49,7 +49,7 @@ class APIRequester:
 
     def get(self):
         logging.debug('Request:\nVerb: GET\nURL: %s\nHeaders: %s\nData: %s',
-                      {self.url}, {self.headers}, {self.data})
+                      self.url, json.dumps(self.headers), self.data)
         response = requests.get(
                 self.url,
                 headers=self.headers,
@@ -60,7 +60,7 @@ class APIRequester:
 
     def post(self):
         logging.debug('Request:\nVerb:POST\nURL: %s\nHeaders: %s\nData: %s',
-                      {self.url}, {self.headers}, {self.data})
+                      self.url, json.dumps(self.headers), self.data)
         response = requests.post(
                 self.url,
                 headers=self.headers,
@@ -71,7 +71,7 @@ class APIRequester:
 
     def delete(self):
         logging.debug('Request:\nVerb: DELETE\nURL: %s\nHeaders: %s\nData: %s',
-                      {self.url}, {self.headers}, {self.data})
+                      self.url, json.dumps(self.headers), self.data)
         response = requests.delete(
                 self.url,
                 headers=self.headers,

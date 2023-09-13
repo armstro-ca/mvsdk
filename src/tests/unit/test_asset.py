@@ -28,7 +28,7 @@ class TestAuth(unittest.TestCase):
                 data=data,
                 auth=auth
                 )
-
+        
     def test_add_keywords(self):
 
         keywords = 'clouds,mountains,snow'

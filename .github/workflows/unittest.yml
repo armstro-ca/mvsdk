@@ -28,5 +28,11 @@ jobs:
           # default set of ruff rules with GitHub Annotations
           ruff --format=github --target-version=py37 .
       - name: Test with pytest
+        env:
+          MVUSERNAME: ${{ secrets.MVUSERNAME }}
+          MVPASSWORD: ${{ secrets.MVPASSWORD }}
+          MVCLIENTID: ${{ secrets.MVCLIENTID }}
+          MVCLIENTSECRET: ${{ secrets.MVCLIENTSECRET }}
+          PYTHONPATH: /home/runner/work/mvsdk/mvsdk/src
         run: |
           pytest

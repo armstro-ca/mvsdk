@@ -1,4 +1,5 @@
 import logging
+from json import JSONDecodeError
 
 from mvsdk.api import PathBuilder, APIRequester
 
@@ -67,7 +68,9 @@ class Client(object):
                 "status": response_status_code,
                 "json": response_json
             }
-        except KeyError:
+        except (JSONDecodeError, KeyError) as ex:
+            logging.debug('Exception thrown while handling response:\n%s\n%s',
+                          type(ex).__name__, ex.args)
             return {
                 "status": response.status_code,
                 "json": {response.text}
