@@ -1,5 +1,6 @@
 import base64
 
+
 class Connect:
 
     def __init__(self, mv_sdk, base_url: str, domain: str, **kwargs: dict):
