@@ -15,7 +15,7 @@ class Asset:
 
         """
         headers = headers or {}
-        headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        headers['Content-Type'] = 'application/json'
 
         return self.mv_sdk.request(
             'get',
@@ -40,7 +40,7 @@ class Asset:
     # --------------
     
     def create_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
-                         domain_id=None, domain_action=None, bulk=None):
+                        domain_id=None, domain_action=None, bulk=None):
         """
 
         """
@@ -71,7 +71,7 @@ class Asset:
 
         """
         headers = headers or {}
-        headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        headers['Content-Type'] = 'application/json'
 
         return self.mv_sdk.request(
             'delete',
@@ -94,7 +94,7 @@ class Asset:
 
         """
         headers = headers or {}
-        headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        headers['Content-Type'] = 'application/json'
 
         return self.mv_sdk.request(
             'get',
