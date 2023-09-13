@@ -9,8 +9,8 @@ class Keyword:
         self.base_url = base_url
         self.domain = domain
 
-    def create(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action=None, 
-            domain_id=None, domain_action=None):
+    def create(self, params=None, data=None, headers=None, auth=None, object_id=None,
+               object_action=None, domain_id=None, domain_action=None):
         """
         https://docs.mediavalet.com/#38562514-52f6-457e-9b7a-25486661112c
         """
@@ -31,8 +31,8 @@ class Keyword:
             domain_action=domain_action
         )
 
-    def get(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action=None, 
-            domain_id=None, domain_action=None):
+    def get(self, params=None, data=None, headers=None, auth=None, object_id=None,
+            object_action=None, domain_id=None, domain_action=None):
         """
         https://docs.mediavalet.com/#1e6608b7-5d9a-4904-8ffc-731fc6c4e9c3
         """
