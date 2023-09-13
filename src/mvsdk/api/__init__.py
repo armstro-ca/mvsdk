@@ -45,6 +45,7 @@ class APIRequester:
         self.url = kwargs.get("url")
         self.headers = kwargs.get("headers")
         self.data = kwargs.get("data")
+        self.verify_ssl = kwargs.get("verify_ssl") or True
     
     #@mock.patch('requests.get', side_effect=mocked_requests_get)
     #def get(self, mock_get):
@@ -53,7 +54,8 @@ class APIRequester:
         response = requests.get(
                 self.url,
                 headers=self.headers,
-                data=self.data
+                data=self.data,
+                verify=bool(self.verify_ssl)
             )
         return response
     
@@ -64,7 +66,8 @@ class APIRequester:
         response = requests.post(
                 self.url,
                 headers=self.headers,
-                data=self.data
+                data=self.data,
+                verify=bool(self.verify_ssl)
             )
         return response
     
@@ -75,7 +78,8 @@ class APIRequester:
         response = requests.delete(
                 self.url,
                 headers=self.headers,
-                data=self.data
+                data=self.data,
+                verify=bool(self.verify_ssl)
             )
         return response
 

@@ -23,7 +23,7 @@ class Client(object):
 
     def request(self, method, base_url, domain, object_id=None,
                 object_action=None, domain_id=None, domain_action=None,
-                params=None, data=None, headers=None, auth=None, bulk=None):
+                params=None, data=None, headers=None, auth=None, bulk=None, **kwargs):
 
         headers = headers or {}
         params = params or {}
@@ -48,7 +48,7 @@ class Client(object):
                 'data': data
             }
         
-        api = APIRequester(url=url, headers=headers, data=data)
+        api = APIRequester(url=url, headers=headers, data=data, **kwargs)
         
         if method == 'GET':
             response = api.get()
@@ -62,15 +62,18 @@ class Client(object):
         logging.debug(response.headers)
         logging.debug(response.text)
         
-        if response.status_code == 200:
+        try:
+            response_status_code = response.status_code
+            response_json = response.json()
+
             return {
-                "status": response.status_code,
-                "json": response.json()
+                "status": response_status_code,
+                "json": response_json
             }
-        else:
+        except:
             return {
                 "status": response.status_code,
-                "json": {}
+                "json": {response.text}
             }
          
     @property
