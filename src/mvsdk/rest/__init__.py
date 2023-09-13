@@ -69,7 +69,7 @@ class Client(object):
                 "json": response_json
             }
         except (JSONDecodeError, KeyError) as ex:
-            logging.debug('Exception thrown while handling response:\n%s\n%s',
+            logging.debug('%s exception thrown while handling response:\n%s',
                           type(ex).__name__, ex.args)
             return {
                 "status": response.status_code,
