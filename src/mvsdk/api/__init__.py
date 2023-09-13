@@ -1,7 +1,5 @@
 import requests
 import json
-import unittest
-from unittest import mock
 from urllib.parse import urlencode
 import logging
 
@@ -13,8 +11,9 @@ def create_params(**kwargs):
     path = kwargs.get("path")
     params = kwargs.get("params")
     if params:
-        query_string = urlencode(eval(params))
+        query_string = urlencode(params)
     return f'{path}?{query_string}'
+
 
 def mocked_requests_get(url, headers, data):
     class MockResponse:
@@ -35,6 +34,7 @@ def mocked_requests_get(url, headers, data):
 
     return MockResponse(url, headers, 200)
 
+
 class APIRequester:
     '''
     Used to make the request
@@ -46,11 +46,10 @@ class APIRequester:
         self.headers = kwargs.get("headers")
         self.data = kwargs.get("data")
         self.verify_ssl = kwargs.get("verify_ssl") or True
-    
-    #@mock.patch('requests.get', side_effect=mocked_requests_get)
-    #def get(self, mock_get):
+
     def get(self):
-        logging.debug(f'Request:\nVerb: GET\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
+        logging.debug('Request:\nVerb: GET\nURL: %s\nHeaders: %s\nData: %s',
+                      {self.url}, {self.headers}, {self.data})
         response = requests.get(
                 self.url,
                 headers=self.headers,
@@ -58,11 +57,10 @@ class APIRequester:
                 verify=bool(self.verify_ssl)
             )
         return response
-    
-    #@mock.patch('requests.post', side_effect=mocked_requests_get)
-    #def post(self, mock_get):
+
     def post(self):
-        logging.debug(f'Request:\nVerb:POST\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
+        logging.debug('Request:\nVerb:POST\nURL: %s\nHeaders: %s\nData: %s',
+                      {self.url}, {self.headers}, {self.data})
         response = requests.post(
                 self.url,
                 headers=self.headers,
@@ -70,11 +68,10 @@ class APIRequester:
                 verify=bool(self.verify_ssl)
             )
         return response
-    
-    #@mock.patch('requests.post', side_effect=mocked_requests_get)
-    #def post(self, mock_get):
+
     def delete(self):
-        logging.debug(f'Request:\nVerb: DELETE\nURL: {self.url}\nHeaders: {self.headers}\nData: {self.data}')
+        logging.debug('Request:\nVerb: DELETE\nURL: %s\nHeaders: %s\nData: %s',
+                      {self.url}, {self.headers}, {self.data})
         response = requests.delete(
                 self.url,
                 headers=self.headers,
@@ -82,6 +79,7 @@ class APIRequester:
                 verify=bool(self.verify_ssl)
             )
         return response
+
 
 class PathBuilder:
     '''
@@ -97,10 +95,10 @@ class PathBuilder:
         self.domain_id = kwargs.get('domain_id')
         self.domain_action = kwargs.get('domain_action')
         self.params = kwargs.get('params')
-        
+
     def build(self):
         paths = {
-            "domains":{
+            "domains": {
                 "asset": {
                     "path": 'assets'
                 },
@@ -184,11 +182,10 @@ class PathBuilder:
             sections.append(self.object_id)
         if self.object_action:
             sections.append(self.object_action)
-        
-        
+
         uri = f'/{"/".join(sections)}'
-        
-        #manage params and filtering
+
+        # manage params and filtering
         params = {}
         for param in self.params.keys():
             params[param] = self.params[param]
