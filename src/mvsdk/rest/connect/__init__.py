@@ -3,7 +3,7 @@ import base64
 
 class Connect:
 
-    def __init__(self, mv_sdk, base_url: str, domain: str, **kwargs: dict):
+    def __init__(self, mv_sdk, base_url: str, domain: str):
         """
         Initialize the Asset Domain
         """
@@ -12,7 +12,7 @@ class Connect:
         self.base_url = base_url
         self.domain = domain
 
-    def auth(self, params=None, data=None, headers=None, auth=None, object_id=None, domain_id=None, domain_action=None):
+    def auth(self, params=None, data=None, headers=None, auth=None, object_id=None, domain_id=None):
         """
         """
         headers = headers or {}

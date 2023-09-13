@@ -1,6 +1,6 @@
 class Bulk:
 
-    def __init__(self, mv_sdk, base_url: str, domain: str, **kwargs: dict):
+    def __init__(self, mv_sdk, base_url: str, domain: str):
         """
         Initialize the Asset Domain
         """
@@ -8,9 +8,9 @@ class Bulk:
         self.mv_sdk = mv_sdk
         self.base_url = base_url
         self.domain = domain
-    
+
     def post(self, params=None, data=None, headers=None, auth=None, object_id=None,
-             domain_id=None, domain_action=None, bulk=False):
+             domain_id=None, domain_action=None):
         """
 
         """

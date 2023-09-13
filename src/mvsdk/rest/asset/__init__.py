@@ -1,6 +1,6 @@
 class Asset:
 
-    def __init__(self, mv_sdk, base_url: str, domain: str, **kwargs: dict):
+    def __init__(self, mv_sdk, base_url: str, domain: str):
         """
         Initialize the Asset Domain
         """
@@ -8,9 +8,9 @@ class Asset:
         self.mv_sdk = mv_sdk
         self.base_url = base_url
         self.domain = domain
-    
+
     def get(self, params=None, data=None, headers=None, auth=None, object_id=None,
-            domain_id=None, domain_action=None, bulk=False):
+            domain_id=None, domain_action=None):
         """
 
         """
@@ -34,11 +34,11 @@ class Asset:
         """
 
         """
-    
+
     # --------------
     # ASSET KEYWORDS
     # --------------
-    
+
     def create_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
                         domain_id=None, domain_action=None, bulk=None):
         """
@@ -87,7 +87,7 @@ class Asset:
             domain_action=domain_action,
             bulk=bulk
         )
-    
+
     def get_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
                      domain_id=None, domain_action=None, bulk=None):
         """
