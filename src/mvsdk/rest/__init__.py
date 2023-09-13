@@ -1,25 +1,22 @@
-import os
 import logging
 
 from mvsdk.api import PathBuilder, APIRequester
 
 
 class Client(object):
-    """ 
-    A client for accessing the MVAPI. 
+    """
+    A client for accessing the MVAPI.
     """
     def __init__(self):
 
         self.base_url = 'mv-api-whistler.mediavalet.com'
         self.auth_url = 'iam-qa.mediavalet.com'
-        
+
         # Domains
         self._asset = None
         self._bulk = None
         self._connect = None
         self._keyword = None
-
-
 
     def request(self, method, base_url, domain, object_id=None,
                 object_action=None, domain_id=None, domain_action=None,
@@ -47,9 +44,9 @@ class Client(object):
                 'headers': headers,
                 'data': data
             }
-        
+
         api = APIRequester(url=url, headers=headers, data=data, **kwargs)
-        
+
         if method == 'GET':
             response = api.get()
         elif method == 'POST':
@@ -61,7 +58,7 @@ class Client(object):
 
         logging.debug(response.headers)
         logging.debug(response.text)
-        
+
         try:
             response_status_code = response.status_code
             response_json = response.json()
@@ -70,12 +67,12 @@ class Client(object):
                 "status": response_status_code,
                 "json": response_json
             }
-        except:
+        except KeyError:
             return {
                 "status": response.status_code,
                 "json": {response.text}
             }
-         
+
     @property
     def asset(self):
         """
@@ -85,7 +82,7 @@ class Client(object):
             from mvsdk.rest.asset import Asset
             self._asset = Asset(self, self.base_url, 'asset')
         return self._asset
-    
+
     @property
     def bulk(self):
         """
@@ -95,7 +92,7 @@ class Client(object):
             from mvsdk.rest.bulk import Bulk
             self._bulk = Bulk(self, self.base_url, 'bulk')
         return self._bulk
-    
+
     @property
     def connect(self):
         """
@@ -105,7 +102,7 @@ class Client(object):
             from mvsdk.rest.connect import Connect
             self._connect = Connect(self, self.auth_url, 'connect')
         return self._connect
-    
+
     @property
     def keyword(self):
         """

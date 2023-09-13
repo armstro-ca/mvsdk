@@ -30,7 +30,8 @@ class Asset:
             domain_action=domain_action
         )
 
-    def put(self, params=None, data=None, headers=None, auth=None, profile_id=None, domain_id=None, domain_action=None):
+    def put(self, params=None, data=None, headers=None, auth=None, profile_id=None,
+            domain_id=None, domain_action=None):
         """
 
         """
@@ -39,8 +40,9 @@ class Asset:
     # ASSET KEYWORDS
     # --------------
 
-    def create_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
-                        domain_id=None, domain_action=None, bulk=None):
+    def create_keywords(self, params=None, data=None, headers=None, auth=None,
+                        object_id=None, object_action='keywords', domain_id=None,
+                        domain_action=None, bulk=None):
         """
 
         """
@@ -65,8 +67,8 @@ class Asset:
             bulk=bulk
         )
 
-    def delete_keyword(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keyword',
-                       domain_id=None, domain_action=None, bulk=None):
+    def delete_keyword(self, params=None, data=None, headers=None, auth=None, object_id=None,
+                       object_action='keyword', domain_id=None, domain_action=None, bulk=None):
         """
 
         """
@@ -88,8 +90,8 @@ class Asset:
             bulk=bulk
         )
 
-    def get_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None, object_action='keywords',
-                     domain_id=None, domain_action=None, bulk=None):
+    def get_keywords(self, params=None, data=None, headers=None, auth=None, object_id=None,
+                     object_action='keywords', domain_id=None, domain_action=None, bulk=None):
         """
 
         """
