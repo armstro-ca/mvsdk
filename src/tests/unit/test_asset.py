@@ -5,7 +5,7 @@ import json
 from mvsdk.rest import Client
 
 
-class TestAuth(unittest.TestCase):
+class TestAsset(unittest.TestCase):
 
     def setUp(self):
         data = {
@@ -28,7 +28,7 @@ class TestAuth(unittest.TestCase):
                 data=data,
                 auth=auth
                 )
-        
+
     def test_add_keywords(self):
 
         keywords = 'clouds,mountains,snow'
