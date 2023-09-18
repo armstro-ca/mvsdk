@@ -5,14 +5,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='mvsdk',
-    version='0.0.4-23009081115',
+    version='0.0.5-23009181525',
     author='James Armstrong',
     author_email='j@armstro.ca',
     description='MediaValet Python SDK',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url='https://github.com/armstro-ca/mvsdk',
-    project_urls = {
+    project_urls={
         "Bug Tracker": "https://github.com/armstro-ca/mvsdk/issues"
     },
     license='MIT',
