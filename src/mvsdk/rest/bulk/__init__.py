@@ -45,18 +45,21 @@ class BulkContainer:
 
         boundary_string = 'c6c2ed020aadd284efd61a7c9d4dfe94'
 
-        bulk_requests['headers'] = {'Content-Type': f'multipart/mixed; boundary={boundary_string}'}
+        bulk_requests['headers'] = {
+            'Content-Type': f'multipart/mixed; boundary={boundary_string}'
+            }
 
         bulk_request_payloads = []
 
         for request in self.bulk_requests:
-            bulk_request = ''.join(f'--{boundary_string}\r\n'
-                                   'Content-Type: application/http; msgtype=request\r\n\r\n'
-                                   f'{request["method"]} {request["uri"]} HTTP/1.1\r\n'
-                                   f'host: {request["headers"]["Host"]}\r\n'
-                                   f'Authorization: {request["headers"]["Authorization"]}\r\n'
-                                   f'content-type: {request["headers"]["Content-Type"]}\r\n'
-                                   )
+            bulk_request = '\r\n'.join(
+                                    f'--{boundary_string}'
+                                    'Content-Type: application/http; msgtype=request\r\n'
+                                    f'{request["method"]} {request["uri"]} HTTP/1.1'
+                                    f'host: {request["headers"]["Host"]}'
+                                    f'Authorization: {request["headers"]["Authorization"]}'
+                                    f'content-type: {request["headers"]["Content-Type"]}'
+                                    )
 
             if request['data']:
                 bulk_request += f'\r\n{request["data"]}\r\n'
