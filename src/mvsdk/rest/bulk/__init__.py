@@ -52,22 +52,21 @@ class BulkContainer:
         bulk_request_payloads = []
 
         for request in self.bulk_requests:
-            bulk_request = '\r\n'.join(
-                                    f'--{boundary_string}'
-                                    'Content-Type: application/http; msgtype=request\r\n'
-                                    f'{request["method"]} {request["uri"]} HTTP/1.1'
-                                    f'host: {request["headers"]["Host"]}'
-                                    f'Authorization: {request["headers"]["Authorization"]}'
-                                    f'content-type: {request["headers"]["Content-Type"]}'
-                                    )
+            bulk_request = ''.join(f'--{boundary_string}\r\n'
+                                   'Content-Type: application/http; msgtype=request\r\n\r\n'
+                                   f'{request["method"]} {request["uri"]} HTTP/1.1\r\n'
+                                   f'host: {request["headers"]["Host"]}\r\n'
+                                   f'Authorization: {request["headers"]["Authorization"]}\r\n'
+                                   f'content-type: {request["headers"]["Content-Type"]}\r\n'
+                                   )
 
             if request['data']:
                 bulk_request += f'\r\n{request["data"]}\r\n'
 
             bulk_request_payloads.append(bulk_request)
 
-        bulk_request_payloads.append(f'\r\n\r\n--{boundary_string}--')
-        bulk_request_payload = '\n'.join(bulk_request_payloads)
+        bulk_request_payloads.append(f'\r\n\r\n--{boundary_string}--\r\n')
+        bulk_request_payload = ''.join(bulk_request_payloads)
         bulk_requests['payload'] = bulk_request_payload.encode(encoding='UTF-8', errors='strict')
 
         return bulk_requests
