@@ -57,16 +57,16 @@ class BulkContainer:
                                    f'{request["method"]} {request["uri"]} HTTP/1.1\r\n'
                                    f'host: {request["headers"]["Host"]}\r\n'
                                    f'Authorization: {request["headers"]["Authorization"]}\r\n'
-                                   f'content-type: {request["headers"]["Content-Type"]}\r\n'
+                                   f'content-type: {request["headers"]["Content-Type"]}\r\n\r\n'
                                    )
 
             if request['data']:
-                bulk_request += f'\r\n{request["data"]}\r\n'
+                bulk_request += f'{request["data"]}\r\n'
 
             bulk_request_payloads.append(bulk_request)
 
         bulk_request_payloads.append(f'\r\n\r\n--{boundary_string}--\r\n')
-        bulk_request_payload = ''.join(bulk_request_payloads)
+        bulk_request_payload = '\r\n'.join(bulk_request_payloads)
         bulk_requests['payload'] = bulk_request_payload.encode(encoding='UTF-8', errors='strict')
 
         return bulk_requests
