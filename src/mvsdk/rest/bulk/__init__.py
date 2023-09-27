@@ -1,8 +1,11 @@
+import re
+import parse
+
 class Bulk:
 
     def __init__(self, mv_sdk, base_url: str, domain: str):
         """
-        Initialize the Asset Domain
+        Initialize the Bulk Domain
         """
         super(Bulk, self)
         self.mv_sdk = mv_sdk
@@ -30,7 +33,7 @@ class Bulk:
         )
 
 
-class BulkContainer:
+class BulkRequest:
     def __init__(self):
         self.bulk_requests = []
 
@@ -40,12 +43,11 @@ class BulkContainer:
     def get_all_requests(self):
         return self.bulk_requests
 
-    def get_bulk_body(self):
-        bulk_requests = {}
+    def get_payload(self):
+        bulk_request_dict = {}
 
         boundary_string = 'c6c2ed020aadd284efd61a7c9d4dfe94'
-
-        bulk_requests['headers'] = {
+        bulk_request_dict['headers'] = {
             'Content-Type': f'multipart/mixed; boundary={boundary_string}'
             }
 
@@ -67,6 +69,52 @@ class BulkContainer:
 
         bulk_request_payloads.append(f'\r\n\r\n--{boundary_string}--\r\n')
         bulk_request_payload = '\r\n'.join(bulk_request_payloads)
-        bulk_requests['payload'] = bulk_request_payload.encode(encoding='UTF-8', errors='strict')
+        bulk_request_dict['payload'] = bulk_request_payload.encode(encoding='UTF-8', errors='strict')
 
-        return bulk_requests
+        payload_length = str(len(bulk_request_dict['payload']))
+        bulk_request_dict['headers']['Content-Length'] = payload_length
+
+        return bulk_request_dict
+
+
+class BulkResponse:
+    def __init__(self, response):
+        self.bulk_response = []
+
+        json_payload = response['json'].pop()
+        boundary_string = json_payload[:38]
+
+        print(f'Boundary String: {boundary_string}')
+
+        # Split the string into individual sections using the boundary string
+        sections = re.split(boundary_string, json_payload)
+
+        # Iterate over the sections
+        for section in sections[1:-1]:
+            # Extract HTTP response information
+            parsed_headers = parse.search('HTTP/1.1 {status_code} {status_message}\r\nContent-Type: {content_type};', section)
+
+            # Extract payload response information
+            parsed_body = parse.search('{"apiVersion":"{api_version}","warnings":{warnings},"errors":{errors},"payload":{payload},"meta":{"metaInformation":{"ElapsedTimeInMS":{elapsed_time}},"createdAt":"{created_at}"}}', section)
+
+            section_dict = {
+                "status_code": parsed_headers['status_code'],
+                "status_message": parsed_headers['status_message'],
+                "content_type": parsed_headers['content_type'],
+                "api_version": parsed_body['api_version'],
+                "warnings": parsed_body['warnings'],
+                "errors": parsed_body['errors'],
+                "payload": parsed_body['payload']
+            }
+
+            self.add_section(section_dict)
+
+    def add_section(self, section: dict):
+        self.bulk_response.append(section)
+
+    def get_response_dict(self):
+        return self.bulk_response
+    
+  def get_post_response(self):
+
+    def get_get_response(self):
