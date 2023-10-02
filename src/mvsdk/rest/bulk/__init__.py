@@ -1,5 +1,6 @@
 import re
 import parse
+import json
 
 class Bulk:
 
@@ -42,6 +43,9 @@ class BulkRequest:
 
     def get_all_requests(self):
         return self.bulk_requests
+    
+    def get_request_count(self):
+        return len(self.bulk_requests)
 
     def get_payload(self):
         bulk_request_dict = {}
@@ -79,15 +83,65 @@ class BulkRequest:
 
 class BulkResponse:
     def __init__(self, response):
+
+        self.response = response
+
+        try:
+            self.response_payload = self.response.json()
+        except json.decoder.JSONDecodeError as error:
+            print('Error parsing JSON response. JSON from MediaValet API is malformed: %s', error)
+            self.response_payload = self.response.text
+
         self.bulk_response = []
 
-        json_payload = response['json'].pop()
-        boundary_string = json_payload[:38]
+    def add_section(self, section: dict):
+        self.bulk_response.append(section)
+
+    @property
+    def post_response(self):
+
+        if self.response.status_code == 200:
+            boundary_string = self.response_payload[:38]
+
+            print(f'Boundary String: {boundary_string}')
+
+            # Split the string into individual sections using the boundary string
+            sections = re.split(boundary_string, self.response_payload)
+
+            # Iterate over the sections
+            for section in sections[1:-1]:
+                # Extract HTTP response information
+                parsed_headers = parse.search('HTTP/1.1 {status_code} {status_message}', section)
+
+                section_dict = {
+                    "status_code": parsed_headers['status_code'],
+                    "status_message": parsed_headers['status_message']
+                }
+
+                self.add_section(section_dict)
+        else:
+            parsed_response = parse.search("'Message': '{message}', 'ExceptionMessage': '{exception_message}', 'ExceptionType': '{exception_type}'", self.json_payload)
+
+            section_dict = {
+                    "status_code": self.response['status'],
+                    "status_message": parsed_response['message'],
+                    "exception_message": parsed_response['exception_message'],
+                    "exception_type": parsed_response['exception_type']
+                }
+
+            self.add_section(section_dict)
+
+        return self.bulk_response
+
+    @property
+    def get_response(self):
+
+        boundary_string = self.response_payload[:38]
 
         print(f'Boundary String: {boundary_string}')
 
         # Split the string into individual sections using the boundary string
-        sections = re.split(boundary_string, json_payload)
+        sections = re.split(boundary_string, self.response_payload)
 
         # Iterate over the sections
         for section in sections[1:-1]:
@@ -109,12 +163,4 @@ class BulkResponse:
 
             self.add_section(section_dict)
 
-    def add_section(self, section: dict):
-        self.bulk_response.append(section)
-
-    def get_response_dict(self):
         return self.bulk_response
-    
-  def get_post_response(self):
-
-    def get_get_response(self):
