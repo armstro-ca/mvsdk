@@ -1,6 +1,7 @@
 import re
 import parse
 import json
+import logging as log
 
 class Bulk:
 
@@ -89,7 +90,7 @@ class BulkResponse:
         try:
             self.response_payload = self.response.json()
         except json.decoder.JSONDecodeError as error:
-            print('Error parsing JSON response. JSON from MediaValet API is malformed: %s', error)
+            log.info('Error parsing JSON response. JSON from MediaValet API is malformed: %s', error)
             self.response_payload = self.response.text
 
         self.bulk_response = []
@@ -102,8 +103,6 @@ class BulkResponse:
 
         if self.response.status_code == 200:
             boundary_string = self.response_payload[:38]
-
-            print(f'Boundary String: {boundary_string}')
 
             # Split the string into individual sections using the boundary string
             sections = re.split(boundary_string, self.response_payload)
@@ -137,8 +136,6 @@ class BulkResponse:
     def get_response(self):
 
         boundary_string = self.response_payload[:38]
-
-        print(f'Boundary String: {boundary_string}')
 
         # Split the string into individual sections using the boundary string
         sections = re.split(boundary_string, self.response_payload)
