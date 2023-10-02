@@ -10,14 +10,17 @@ class Client(object):
     """
     def __init__(self):
 
-        self.base_url = 'mv-api-whistler.mediavalet.com'
-        self.auth_url = 'iam-qa.mediavalet.com'
+        #self.base_url = 'mv-api-whistler.mediavalet.com'
+        #self.auth_url = 'iam-qa.mediavalet.com'
+        self.base_url = 'mv-api-usva.mediavalet.net'
+        self.auth_url = 'login.mediavalet.com'
 
         # Domains
         self._asset = None
         self._bulk = None
         self._connect = None
         self._keyword = None
+        self._keyword_group = None
 
     def request(self, method, base_url, domain, object_id=None,
                 object_action=None, domain_id=None, domain_action=None,
@@ -57,24 +60,7 @@ class Client(object):
         else:
             response = {'status_code': "405", 'json': "Verb not allowed"}
 
-        logging.debug(response.headers)
-        logging.debug(response.text)
-
-        try:
-            response_status_code = response.status_code
-            response_json = response.json()
-
-            return {
-                "status": response_status_code,
-                "json": response_json
-            }
-        except (JSONDecodeError, KeyError) as ex:
-            logging.debug('%s exception thrown while handling response:\n%s',
-                          type(ex).__name__, ex.args)
-            return {
-                "status": response.status_code,
-                "json": {response.text}
-            }
+        return response
 
     @property
     def asset(self):
@@ -115,3 +101,13 @@ class Client(object):
             from mvsdk.rest.keyword import Keyword
             self._keyword = Keyword(self, self.base_url, 'keyword')
         return self._keyword
+    
+    @property
+    def keyword_group(self):
+        """
+        Access the MVAPI KeywordGroup API
+        """
+        if self._keyword_group is None:
+            from mvsdk.rest.keyword_group import KeywordGroup
+            self._keyword_group = KeywordGroup(self, self.base_url, 'keyword_group')
+        return self._keyword_group
