@@ -17,6 +17,7 @@ class Client(object):
 
         # Domains
         self._asset = None
+        self._attribute = None
         self._bulk = None
         self._connect = None
         self._keyword = None
@@ -71,6 +72,16 @@ class Client(object):
             from mvsdk.rest.asset import Asset
             self._asset = Asset(self, self.base_url, 'asset')
         return self._asset
+    
+    @property
+    def attribute(self):
+        """
+        Access the MVAPI Attribute API
+        """
+        if self._attribute is None:
+            from mvsdk.rest.attribute import Attribute
+            self._attribute = Attribute(self, self.base_url, 'attribute')
+        return self._attribute
 
     @property
     def bulk(self):
