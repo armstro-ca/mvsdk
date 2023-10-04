@@ -119,10 +119,11 @@ class BulkResponse:
 
                 self.add_section(section_dict)
         else:
-            parsed_response = parse.search("'Message': '{message}', 'ExceptionMessage': '{exception_message}', 'ExceptionType': '{exception_type}'", self.json_payload)
+            print(self.response.text)
+            parsed_response = parse.search('"Message":"{message}","ExceptionMessage":"{exception_message}","ExceptionType":"{exception_type}"', self.response.text)
 
             section_dict = {
-                    "status_code": self.response['status'],
+                    "status_code": self.response.status_code,
                     "status_message": parsed_response['message'],
                     "exception_message": parsed_response['exception_message'],
                     "exception_type": parsed_response['exception_type']
