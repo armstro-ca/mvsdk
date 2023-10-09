@@ -32,4 +32,4 @@ class TestAuth(unittest.TestCase):
                 auth=auth
                 )
                 
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response.status_code, 200)

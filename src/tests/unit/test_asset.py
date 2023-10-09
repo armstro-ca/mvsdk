@@ -39,7 +39,7 @@ class TestAsset(unittest.TestCase):
             auth=self.session["json"]["access_token"]
             )
 
-        self.assertEqual(response['status'], 202)
+        self.assertEqual(response.status_code, 202)
 
     def test_delete_keyword(self):
 
@@ -61,7 +61,7 @@ class TestAsset(unittest.TestCase):
             auth=self.session["json"]["access_token"]
             )
 
-        self.assertEqual(response['status'], 200)
+        self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response['json']['payload'], list)
 
 
