@@ -1,6 +1,3 @@
-import logging
-from json import JSONDecodeError
-
 from mvsdk.api import PathBuilder, APIRequester
 
 
