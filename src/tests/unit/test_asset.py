@@ -36,7 +36,7 @@ class TestAsset(unittest.TestCase):
         response = self.sdk_handle.asset.create_keywords(
             data=json.dumps(keywords.split(',')),
             object_id=self.asset_id,
-            auth=self.session["json"]["access_token"]
+            auth=self.session.json()["access_token"]
             )
 
         self.assertEqual(response.status_code, 202)
@@ -49,7 +49,7 @@ class TestAsset(unittest.TestCase):
         response = self.sdk_handle.asset.delete_keyword(
             object_action=f'keywords/{existing_keywords[keyword]}',
             object_id=self.asset_id,
-            auth=self.session["json"]["access_token"]
+            auth=self.session.json()["access_token"]
             )
 
         self.assertEqual(response['status'], 202)
@@ -58,21 +58,21 @@ class TestAsset(unittest.TestCase):
 
         response = self.sdk_handle.asset.get_keywords(
             object_id=self.asset_id,
-            auth=self.session["json"]["access_token"]
+            auth=self.session.json()["access_token"]
             )
 
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response['json']['payload'], list)
+        self.assertIsInstance(response.json()['payload'], list)
 
 
 def get_existing_keywords(sdk_handle, session):
 
     response = sdk_handle.keyword.get(
-        auth=session["json"]["access_token"]
+        auth=session.json()["access_token"]
         )
 
     existing_keywords = {}
-    for existing_keyword in response['json']['payload']:
+    for existing_keyword in response.json()['payload']:
         existing_keywords[existing_keyword['keywordName']] = existing_keyword['id']
 
     return existing_keywords
