@@ -69,7 +69,7 @@ class Client(object):
             from mvsdk.rest.asset import Asset
             self._asset = Asset(self, self.base_url, 'asset')
         return self._asset
-    
+
     @property
     def attribute(self):
         """
@@ -109,7 +109,7 @@ class Client(object):
             from mvsdk.rest.keyword import Keyword
             self._keyword = Keyword(self, self.base_url, 'keyword')
         return self._keyword
-    
+
     @property
     def keyword_group(self):
         """

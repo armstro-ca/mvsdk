@@ -3,6 +3,7 @@ import parse
 import json
 import logging as log
 
+
 class Bulk:
 
     def __init__(self, mv_sdk, base_url: str, domain: str):
@@ -44,7 +45,7 @@ class BulkRequest:
 
     def get_all_requests(self):
         return self.bulk_requests
-    
+
     def get_request_count(self):
         return len(self.bulk_requests)
 
@@ -119,7 +120,6 @@ class BulkResponse:
 
                 self.add_section(section_dict)
         else:
-            print(self.response.text)
             parsed_response = parse.search('"Message":"{message}","ExceptionMessage":"{exception_message}","ExceptionType":"{exception_type}"', self.response.text)
 
             section_dict = {
@@ -136,28 +136,41 @@ class BulkResponse:
     @property
     def get_response(self):
 
-        boundary_string = self.response_payload[:38]
+        if self.response.status_code == 200:
+            boundary_string = self.response_payload[:38]
 
-        # Split the string into individual sections using the boundary string
-        sections = re.split(boundary_string, self.response_payload)
+            # Split the string into individual sections using the boundary string
+            sections = re.split(boundary_string, self.response_payload)
 
-        # Iterate over the sections
-        for section in sections[1:-1]:
-            # Extract HTTP response information
-            parsed_headers = parse.search('HTTP/1.1 {status_code} {status_message}\r\nContent-Type: {content_type};', section)
+            # Iterate over the sections
+            for section in sections[1:-1]:
+                # Extract HTTP response information
+                parsed_headers = parse.search('HTTP/1.1 {status_code} {status_message}\r\nContent-Type: {content_type};', section)
 
-            # Extract payload response information
-            parsed_body = parse.search('{"apiVersion":"{api_version}","warnings":{warnings},"errors":{errors},"payload":{payload},"meta":{"metaInformation":{"ElapsedTimeInMS":{elapsed_time}},"createdAt":"{created_at}"}}', section)
+                # Extract payload response information
+                parsed_body = parse.search('{"apiVersion":"{api_version}","warnings":{warnings},"errors":{errors},"payload":{payload},"meta":{"metaInformation":{"ElapsedTimeInMS":{elapsed_time}},"createdAt":"{created_at}"}}', section)
+
+                section_dict = {
+                    "status_code": parsed_headers['status_code'],
+                    "status_message": parsed_headers['status_message'],
+                    "content_type": parsed_headers['content_type'],
+                    "api_version": parsed_body['api_version'],
+                    "warnings": parsed_body['warnings'],
+                    "errors": parsed_body['errors'],
+                    "payload": parsed_body['payload']
+                }
+
+                self.add_section(section_dict)
+
+        else:
+            parsed_response = parse.search('"Message":"{message}","ExceptionMessage":"{exception_message}","ExceptionType":"{exception_type}"', self.response.text)
 
             section_dict = {
-                "status_code": parsed_headers['status_code'],
-                "status_message": parsed_headers['status_message'],
-                "content_type": parsed_headers['content_type'],
-                "api_version": parsed_body['api_version'],
-                "warnings": parsed_body['warnings'],
-                "errors": parsed_body['errors'],
-                "payload": parsed_body['payload']
-            }
+                    "status_code": self.response.status_code,
+                    "status_message": parsed_response['message'],
+                    "exception_message": parsed_response['exception_message'],
+                    "exception_type": parsed_response['exception_type']
+                }
 
             self.add_section(section_dict)
 
