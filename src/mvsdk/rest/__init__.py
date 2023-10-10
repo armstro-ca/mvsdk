@@ -7,10 +7,10 @@ class Client(object):
     """
     def __init__(self):
 
-        #self.base_url = 'mv-api-whistler.mediavalet.com'
-        #self.auth_url = 'iam-qa.mediavalet.com'
-        self.base_url = 'mv-api-usva.mediavalet.net'
-        self.auth_url = 'login.mediavalet.com'
+        self.base_url = 'mv-api-whistler.mediavalet.com'
+        self.auth_url = 'iam-qa.mediavalet.com'
+        #self.base_url = 'mv-api-usva.mediavalet.net'
+        #self.auth_url = 'login.mediavalet.com'
 
         # Domains
         self._asset = None
