@@ -3,31 +3,17 @@ import os
 import json
 
 from mvsdk.rest import Client
+from auth import Auth
 
 
 class TestBulk(unittest.TestCase):
 
     def setUp(self):
-        data = {
-                'grant_type': 'password',
-                'username': os.getenv('MVUSERNAME'),
-                'password': os.getenv('MVPASSWORD'),
-                'scope': 'openid api offline_access'
-            }
-
-        auth = {
-                'client_id': os.getenv('MVCLIENTID'),
-                'client_secret': os.getenv('MVCLIENTSECRET')
-            }
+        self.session = Auth().get_session()
 
         self.sdk_handle = Client()
 
         self.asset_id = '151b33b1-4c30-4968-bbd1-525ad812e357'
-
-        self.session = self.sdk_handle.connect.auth(
-                data=data,
-                auth=auth
-                )
 
     def test_add_keywords(self):
 

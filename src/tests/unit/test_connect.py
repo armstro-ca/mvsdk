@@ -2,6 +2,7 @@ import unittest
 import os
 
 from mvsdk.rest import Client
+from auth import Auth
 
 
 class TestAuth(unittest.TestCase):
@@ -15,21 +16,6 @@ class TestAuth(unittest.TestCase):
         self.sdk_handle = Client()
 
     def test_password(self):
-        data = {
-                'grant_type': 'password',
-                'username': self.username,
-                'password': self.password,
-                'scope': 'openid api offline_access'
-            }
-
-        auth = {
-                'client_id': self.client_id,
-                'client_secret': self.client_secret
-            }
-        
-        response = self.sdk_handle.connect.auth(
-                data=data,
-                auth=auth
-                )
+        self.session = Auth().get_session()
                 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.session.status_code, 200)
