@@ -5,12 +5,17 @@ class Client(object):
     """
     A client for accessing the MVAPI.
     """
-    def __init__(self):
+    def __init__(self, auth_url: str = None, base_url: str = None):
 
-        self.base_url = 'mv-api-whistler.mediavalet.com'
-        self.auth_url = 'iam-qa.mediavalet.com'
-        #self.base_url = 'mv-api-usva.mediavalet.net'
-        #self.auth_url = 'login.mediavalet.com'
+        if auth_url == None:
+            self.auth_url = 'login.mediavalet.com'
+        else:
+            self.auth_url = auth_url
+
+        if base_url == None:
+            self.base_url = 'mv-api-usva.mediavalet.net'
+        else:
+            self.base_url = base_url
 
         # Domains
         self._asset = None
