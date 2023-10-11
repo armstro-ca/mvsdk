@@ -1,9 +1,8 @@
 import unittest
-import os
 import json
 
-from mvsdk.rest import Client
 from auth import Auth
+from mvsdk.rest import Client
 
 
 class TestBulk(unittest.TestCase):
