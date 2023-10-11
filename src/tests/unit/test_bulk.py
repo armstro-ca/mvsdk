@@ -1,5 +1,6 @@
 import unittest
 import json
+import os
 
 from tests.auth import Auth
 from mvsdk.rest import Client
@@ -10,7 +11,10 @@ class TestBulk(unittest.TestCase):
     def setUp(self):
         self.session = Auth().get_session()
 
-        self.sdk_handle = Client()
+        auth_url = os.getenv('MVAPIAUTHURL')
+        base_url = os.getenv('MVAPIBASEURL')
+
+        self.sdk_handle = Client(auth_url=auth_url, base_url=base_url)
 
         self.asset_id = '151b33b1-4c30-4968-bbd1-525ad812e357'
 
