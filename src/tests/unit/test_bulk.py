@@ -1,7 +1,7 @@
 import unittest
 import json
 
-from mvsdk.src.tests.auth import Auth
+from tests.auth import Auth
 from mvsdk.rest import Client
 
 
