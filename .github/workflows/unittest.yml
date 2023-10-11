@@ -33,6 +33,8 @@ jobs:
           MVPASSWORD: ${{ secrets.MVPASSWORD }}
           MVCLIENTID: ${{ secrets.MVCLIENTID }}
           MVCLIENTSECRET: ${{ secrets.MVCLIENTSECRET }}
+          MVAPIAUTHURL: ${{ secrets.MVAPIAUTHURL }}
+          MVAPIBASEURL: ${{ secrets.MVAPIBASEURL }}
           PYTHONPATH: /home/runner/work/mvsdk/mvsdk/src
         run: |
           pytest
