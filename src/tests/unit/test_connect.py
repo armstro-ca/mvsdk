@@ -13,7 +13,10 @@ class TestAuth(unittest.TestCase):
         self.username = os.getenv('MVUSERNAME')
         self.password = os.getenv('MVPASSWORD')
 
-        self.sdk_handle = Client()
+        auth_url = os.getenv('MVAPIAUTHURL')
+        base_url = os.getenv('MVAPIBASEURL')
+
+        self.sdk_handle = Client(auth_url=auth_url, base_url=base_url)
 
     def test_password(self):
         self.session = Auth().get_session()

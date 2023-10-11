@@ -1,11 +1,16 @@
 import os
 from mvsdk.rest import Client
 
+from icecream import ic
+
 
 class Auth:
     def __init__(self):
 
-        self.sdk_handle = Client()
+        auth_url = os.getenv('MVAPIAUTHURL')
+        base_url = os.getenv('MVAPIBASEURL')
+
+        self.sdk_handle = Client(auth_url=auth_url, base_url=base_url)
 
         data = {
                 'grant_type': 'password',
