@@ -1,8 +1,6 @@
 import os
 from mvsdk.rest import Client
 
-from icecream import ic
-
 
 class Auth:
     def __init__(self):
