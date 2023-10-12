@@ -74,8 +74,7 @@ class BulkRequest:
             bulk_request_payloads.append(bulk_request)
 
         bulk_request_payloads.append(f'\r\n\r\n--{boundary_string}--\r\n')
-        bulk_request_payload = '\r\n'.join(bulk_request_payloads)
-        bulk_request_dict['payload'] = bulk_request_payload.encode(encoding='UTF-8', errors='strict')
+        bulk_request_dict['payload'] = '\r\n'.join(bulk_request_payloads)
 
         payload_length = str(len(bulk_request_dict['payload']))
         bulk_request_dict['headers']['Content-Length'] = payload_length
