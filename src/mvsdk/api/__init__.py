@@ -190,7 +190,7 @@ class PathBuilder:
         for param in self.params.keys():
             params[param] = self.params[param]
         if params:
-            uri = create_params(params=json.dumps(params), path=uri)
+            uri = create_params(params=params, path=uri)
 
         url = f'https://{self.base_url}{uri}'
 

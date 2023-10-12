@@ -21,6 +21,7 @@ class Client(object):
         self._asset = None
         self._attribute = None
         self._bulk = None
+        self._category = None
         self._connect = None
         self._keyword = None
         self._keyword_group = None
@@ -94,6 +95,16 @@ class Client(object):
             from mvsdk.rest.bulk import Bulk
             self._bulk = Bulk(self, self.base_url, 'bulk')
         return self._bulk
+
+    @property
+    def category(self):
+        """
+        Access the MVAPI Category API
+        """
+        if self._category is None:
+            from mvsdk.rest.category import Category
+            self._category = Category(self, self.base_url, 'category')
+        return self._category
 
     @property
     def connect(self):
