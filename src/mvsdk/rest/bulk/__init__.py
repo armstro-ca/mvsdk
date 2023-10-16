@@ -146,7 +146,7 @@ class BulkResponse:
                 # Extract HTTP response information
                 parsed_headers = parse.search('HTTP/1.1 {status_code} {status_message}\r\nContent-Type: {content_type};', section)
 
-                if int(parsed_headers['status_code']) == 200:
+                if int(parsed_headers['status_code']) < 300:
                     # Extract payload response information
                     parsed_body = parse.search('{"apiVersion":"{api_version}","warnings":{warnings},"errors":{errors},"payload":{payload},"meta":{"metaInformation":{"ElapsedTimeInMS":{elapsed_time}},"createdAt":"{created_at}"}}', section)
 

@@ -23,6 +23,7 @@ class Client(object):
         self._bulk = None
         self._category = None
         self._connect = None
+        self._direct_link = None
         self._keyword = None
         self._keyword_group = None
 
@@ -115,6 +116,16 @@ class Client(object):
             from mvsdk.rest.connect import Connect
             self._connect = Connect(self, self.auth_url, 'connect')
         return self._connect
+    
+    @property
+    def direct_link(self):
+        """
+        Access the MVAPI DirectLink API
+        """
+        if self._direct_link is None:
+            from mvsdk.rest.direct_link import DirectLink
+            self._direct_link = DirectLink(self, self.base_url, 'direct_link')
+        return self._direct_link
 
     @property
     def keyword(self):
