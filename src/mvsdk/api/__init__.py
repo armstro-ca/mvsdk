@@ -46,6 +46,7 @@ class APIRequester:
         self.headers = kwargs.get("headers")
         self.data = kwargs.get("data")
         self.verify_ssl = kwargs.get("verify_ssl") or True
+        self.stream = kwargs.get("stream") or False
 
     def get(self):
         logging.debug('Request:\nVerb: GET\nURL: %s\nHeaders: %s\nData: %s',
@@ -54,7 +55,8 @@ class APIRequester:
                 self.url,
                 headers=self.headers,
                 data=self.data,
-                verify=bool(self.verify_ssl)
+                verify=bool(self.verify_ssl),
+                stream=self.stream
             )
         return response
 
