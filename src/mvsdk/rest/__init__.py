@@ -7,15 +7,8 @@ class Client(object):
     """
     def __init__(self, auth_url: str = None, base_url: str = None):
 
-        if auth_url is None:
-            self.auth_url = 'login.mediavalet.com'
-        else:
-            self.auth_url = auth_url
-
-        if base_url is None:
-            self.base_url = 'mv-api-usva.mediavalet.net'
-        else:
-            self.base_url = base_url
+        self.auth_url = auth_url or 'login.mediavalet.com'
+        self.base_url = base_url or 'mv-api-usva.mediavalet.net'
 
         # Domains
         self._asset = None
