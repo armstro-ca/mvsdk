@@ -32,15 +32,21 @@ class DirectLink:
         )
     
     def create(self, params=None, data=None, headers=None, auth=None, object_id=None,
-               object_action=None, domain_id=None, domain_action=None, bulk=False):
+               object_action=None, domain_id=None, domain_action=None, bulk=False, sync=True):
         """
         https://docs.mediavalet.com/#1e6608b7-5d9a-4904-8ffc-731fc6c4e9c3
         """
         headers = headers or {}
+        params = params or {}
+
         headers['Accept'] = "application/json, text/plain, */*"
         headers['Content-Type'] = "application/json"
         headers['Accept-Encoding'] = "gzip, deflate, br"
         headers['Connection'] = "keep-alive"
+
+        if not sync:
+            params['priority'] = 'low'
+            params['runAsync'] = True
 
         return self.mv_sdk.request(
             'post',

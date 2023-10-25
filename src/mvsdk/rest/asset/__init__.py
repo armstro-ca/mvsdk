@@ -42,15 +42,21 @@ class Asset:
 
     def create_keywords(self, params=None, data=None, headers=None, auth=None,
                         object_id=None, object_action='keywords', domain_id=None,
-                        domain_action=None, bulk=None):
+                        domain_action=None, bulk=None, sync=True):
         """
 
         """
         headers = headers or {}
+        params = params or {}
+
         headers['Accept'] = "application/json"
         headers['Content-Type'] = "application/json"
         headers['Accept-Encoding'] = "gzip, deflate, br"
         headers['Connection'] = "keep-alive"
+
+        if not sync:
+            params['priority'] = 'low'
+            params['runAsync'] = True
 
         return self.mv_sdk.request(
             'post',
@@ -69,12 +75,18 @@ class Asset:
 
     def delete_keyword(self, params=None, data=None, headers=None, auth=None,
                        object_id=None, object_action='keyword', domain_id=None,
-                       domain_action=None, bulk=None):
+                       domain_action=None, bulk=None, sync=True):
         """
 
         """
         headers = headers or {}
+        params = params or {}
+
         headers['Content-Type'] = 'application/json'
+
+        if not sync:
+            params['priority'] = 'low'
+            params['runAsync'] = True
 
         return self.mv_sdk.request(
             'delete',
@@ -121,15 +133,21 @@ class Asset:
 
     def create_attribute(self, params=None, data=None, headers=None, auth=None,
                         object_id=None, object_action='keywords', domain_id=None,
-                        domain_action=None, bulk=None):
+                        domain_action=None, bulk=None, sync=True):
         """
 
         """
         headers = headers or {}
+        params = params or {}
+
         headers['Accept'] = "application/json"
         headers['Content-Type'] = "application/json"
         headers['Accept-Encoding'] = "gzip, deflate, br"
         headers['Connection'] = "keep-alive"
+
+        if not sync:
+            params['priority'] = 'low'
+            params['runAsync'] = True
 
         return self.mv_sdk.request(
             'post',
@@ -148,12 +166,18 @@ class Asset:
 
     def delete_attribute(self, params=None, data=None, headers=None, auth=None,
                        object_id=None, object_action='keyword', domain_id=None,
-                       domain_action=None, bulk=None):
+                       domain_action=None, bulk=None, sync=True):
         """
 
         """
         headers = headers or {}
+        params = params or {}
+
         headers['Content-Type'] = 'application/json'
+
+        if not sync:
+            params['priority'] = 'low'
+            params['runAsync'] = True
 
         return self.mv_sdk.request(
             'delete',

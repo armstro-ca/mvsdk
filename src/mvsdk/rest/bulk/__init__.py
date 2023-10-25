@@ -16,16 +16,12 @@ class Bulk:
         self.domain = domain
 
     def post(self, params=None, data=None, headers=None, auth=None, object_id=None,
-             domain_id=None, domain_action=None, sync=False):
+             domain_id=None, domain_action=None):
         """
 
         """
         headers = headers or {}
         params = params or {}
-
-        if sync is False:
-            params['priority'] = 'low'
-            params['runAsync'] = True
 
         return self.mv_sdk.request(
             'post',
