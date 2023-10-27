@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='mvsdk',
-    version='0.0.6-2310271100',
+    version='0.0.6-2310271200',
     author='James Armstrong',
     author_email='j@armstro.ca',
     description='MediaValet Python SDK',
