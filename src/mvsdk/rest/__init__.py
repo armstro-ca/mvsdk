@@ -19,6 +19,9 @@ class Client(object):
         self._direct_link = None
         self._keyword = None
         self._keyword_group = None
+        self._org_unit = None
+        self._user = None
+        self._user_group = None
 
     def request(self, method, base_url, domain, object_id=None,
                 object_action=None, domain_id=None, domain_action=None,
@@ -67,7 +70,7 @@ class Client(object):
         """
         if self._asset is None:
             from mvsdk.rest.asset import Asset
-            self._asset = Asset(self, self.base_url, 'asset')
+            self._asset = Asset(self, base_url=self.base_url, domain='asset')
         return self._asset
 
     @property
@@ -77,7 +80,7 @@ class Client(object):
         """
         if self._attribute is None:
             from mvsdk.rest.attribute import Attribute
-            self._attribute = Attribute(self, self.base_url, 'attribute')
+            self._attribute = Attribute(self, base_url=self.base_url, domain='attribute')
         return self._attribute
 
     @property
@@ -87,7 +90,7 @@ class Client(object):
         """
         if self._bulk is None:
             from mvsdk.rest.bulk import Bulk
-            self._bulk = Bulk(self, self.base_url, 'bulk')
+            self._bulk = Bulk(self, base_url=self.base_url, domain='bulk')
         return self._bulk
 
     @property
@@ -97,7 +100,7 @@ class Client(object):
         """
         if self._category is None:
             from mvsdk.rest.category import Category
-            self._category = Category(self, self.base_url, 'category')
+            self._category = Category(self, base_url=self.base_url, domain='category')
         return self._category
 
     @property
@@ -107,7 +110,7 @@ class Client(object):
         """
         if self._connect is None:
             from mvsdk.rest.connect import Connect
-            self._connect = Connect(self, self.auth_url, 'connect')
+            self._connect = Connect(self, base_url=self.auth_url, domain='connect')
         return self._connect
     
     @property
@@ -117,7 +120,7 @@ class Client(object):
         """
         if self._direct_link is None:
             from mvsdk.rest.direct_link import DirectLink
-            self._direct_link = DirectLink(self, self.base_url, 'direct_link')
+            self._direct_link = DirectLink(self, base_url=self.base_url, domain='direct_link')
         return self._direct_link
 
     @property
@@ -127,7 +130,7 @@ class Client(object):
         """
         if self._keyword is None:
             from mvsdk.rest.keyword import Keyword
-            self._keyword = Keyword(self, self.base_url, 'keyword')
+            self._keyword = Keyword(self, base_url=self.base_url, domain='keyword')
         return self._keyword
 
     @property
@@ -137,5 +140,35 @@ class Client(object):
         """
         if self._keyword_group is None:
             from mvsdk.rest.keyword_group import KeywordGroup
-            self._keyword_group = KeywordGroup(self, self.base_url, 'keyword_group')
+            self._keyword_group = KeywordGroup(self, base_url=self.base_url, domain='keyword_group')
         return self._keyword_group
+
+    @property
+    def org_unit(self):
+        """
+        Access the MVAPI OrgUnit API
+        """
+        if self._org_unit is None:
+            from mvsdk.rest.org_unit import OrgUnit
+            self._org_unit = OrgUnit(self, base_url=self.base_url, domain='org_unit')
+        return self._org_unit
+
+    @property
+    def user(self):
+        """
+        Access the MVAPI User API
+        """
+        if self._user is None:
+            from mvsdk.rest.user import User
+            self._user = User(self, base_url=self.base_url, domain='user')
+        return self._user
+
+    @property
+    def user_group(self):
+        """
+        Access the MVAPI UserGroup API
+        """
+        if self._user_group is None:
+            from mvsdk.rest.user_group import UserGroup
+            self._user_group = UserGroup(self, base_url=self.base_url, domain='user_group')
+        return self._user_group

@@ -154,7 +154,7 @@ class Asset:
     # --------------
 
     def get_categories(self, params=None, data=None, headers=None, auth=None,
-                       object_id=None, object_action='keywords', domain_id=None,
+                       object_id=None, object_action='categories', domain_id=None,
                        domain_action=None, bulk=None):
         """
 
